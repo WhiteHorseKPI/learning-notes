@@ -1,6 +1,8 @@
 package com.learningnotes.service.controller
 
+import com.learningnotes.service.request.AuthenticationRequest
 import com.learningnotes.service.request.RegisterRequest
+import com.learningnotes.service.response.AuthenticationResponse
 import com.learningnotes.service.service.AuthenticationService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -19,5 +21,12 @@ class AuthenticationController(private val authenticationService: Authentication
     @PostMapping("/register")
     fun register(@RequestBody @Valid registerRequest: RegisterRequest) {
         authenticationService.register(registerRequest)
+    }
+
+    @Operation(summary = "Login a user", description = "Authenticate user with login and password")
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/login")
+    fun login(@RequestBody @Valid authRequest: AuthenticationRequest): AuthenticationResponse {
+        return authenticationService.login(authRequest)
     }
 }
