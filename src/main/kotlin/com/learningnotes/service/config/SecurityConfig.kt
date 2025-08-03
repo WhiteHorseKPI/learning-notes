@@ -54,6 +54,7 @@ class SecurityConfig(
             it.requestMatchers(
                     "/api/auth/**", "/swagger-ui/**", "/v3/api-docs/**",
                     "/swagger-resources/**", "/webjars/**", "/docs").permitAll()
+                .anyRequest().authenticated()
         }
         csrf { it.disable() }
         exceptionHandling { it.authenticationEntryPoint(authenticationEntryPoint()) }
