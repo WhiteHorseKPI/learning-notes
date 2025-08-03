@@ -16,24 +16,24 @@ class User : UserDetails {
     var id: Long = 0
 
     @Column(nullable = false)
-    lateinit var firstName: String
+    var firstName: String? = null
 
     @Column(nullable = false)
-    lateinit var lastName: String
+    var lastName: String? = null
 
     @Column(unique = true, length = 100, nullable = false)
-    lateinit var email: String
+    var email: String? = null
 
     @Column(nullable = false)
-    private lateinit var password: String
+    private var password: String? = null
 
     @CreationTimestamp
     @Column(updatable = false, name = "created_at")
-    private lateinit var createdAt: Date
+    var createdAt: Date? = null
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "user_authorities", joinColumns = [JoinColumn(name = "user_id")])
-    private lateinit var authorities: MutableList<Authority>
+    var authorities: MutableList<Authority>? = null
 
     @OneToMany(mappedBy = "owner", cascade = [CascadeType.ALL], orphanRemoval = true)
     private lateinit var notes: MutableList<Note>
@@ -48,5 +48,9 @@ class User : UserDetails {
 
     override fun getUsername(): String? {
         return email
+    }
+
+    fun setPassword(password: String?) {
+        this.password = password
     }
 }
