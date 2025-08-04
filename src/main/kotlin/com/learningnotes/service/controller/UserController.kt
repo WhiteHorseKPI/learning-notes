@@ -17,4 +17,8 @@ class UserController(private val userService: UserService) {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "User information", description = "Get current user info")
     fun getUserInfo(): UserResponse = userService.getUserInfo()
+
+    @DeleteMapping
+    @Operation(summary = "Delete user", description = "Delete current user from repository")
+    fun deleteUser() = userService.deleteUser()
 }
