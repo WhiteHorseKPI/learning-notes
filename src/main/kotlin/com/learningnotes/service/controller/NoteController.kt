@@ -1,0 +1,24 @@
+package com.learningnotes.service.controller
+
+import com.learningnotes.service.request.NoteRequest
+import com.learningnotes.service.response.NoteResponse
+import com.learningnotes.service.service.NoteService
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.tags.Tag
+import jakarta.validation.Valid
+import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.*
+
+
+@Tag(name = "Note REST API Endpoints", description = "Operations for managing user notes")
+@RestController
+@RequestMapping("/api/notes")
+class NoteController(private val noteService: NoteService) {
+
+    @Operation(summary = "Create note for user", description = "Create note for the authenticated user")
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping
+    fun createNote(@RequestBody @Valid noteRequest: NoteRequest): NoteResponse {
+        return noteService.createNote(noteRequest)
+    }
+}
