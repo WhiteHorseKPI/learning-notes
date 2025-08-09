@@ -6,6 +6,7 @@ import com.learningnotes.service.service.NoteService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
+import jakarta.validation.constraints.Min
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
@@ -27,5 +28,12 @@ class NoteController(private val noteService: NoteService) {
     @GetMapping
     fun getAllNotes(): List<NoteResponse> {
         return noteService.getAllNotes()
+    }
+
+    @Operation(summary = "Change note completion", description = "Update note completion to opposite")
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping("/{id}")
+    fun toggleNoteCompletion(@PathVariable @Min(1) id: Long): NoteResponse {
+        return noteService.toggleNoteCompletion(id)
     }
 }
