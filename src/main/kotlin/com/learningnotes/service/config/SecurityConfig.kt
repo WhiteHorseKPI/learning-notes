@@ -54,6 +54,7 @@ class SecurityConfig(
             it.requestMatchers(
                     "/api/auth/**", "/swagger-ui/**", "/v3/api-docs/**",
                     "/swagger-resources/**", "/webjars/**", "/docs").permitAll()
+                .requestMatchers("/api/admin/**").hasRole("TEACHER")
                 .anyRequest().authenticated()
         }
         csrf { it.disable() }
