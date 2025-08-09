@@ -23,4 +23,14 @@ class NoteService(private val noteRepository: NoteRepository) {
         val savedNote: Note = noteRepository.save(note)
         return NoteResponse.fromNote(savedNote)
     }
+
+    @Transactional(readOnly = true)
+    fun getAllNotes(): List<NoteResponse> {
+        val currentUser = UserUtils.getAuthenticatedUser()
+
+        return noteRepository.findByOwner(currentUser)
+            .stream()
+            .map { NoteResponse.fromNote(it) }
+            .toList()
+    }
 }

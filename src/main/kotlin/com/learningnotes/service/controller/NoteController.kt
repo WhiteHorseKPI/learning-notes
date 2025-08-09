@@ -21,4 +21,11 @@ class NoteController(private val noteService: NoteService) {
     fun createNote(@RequestBody @Valid noteRequest: NoteRequest): NoteResponse {
         return noteService.createNote(noteRequest)
     }
+
+    @Operation(summary = "Get all notes for user", description = "Fetch all notes for the authenticated user")
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping
+    fun getAllNotes(): List<NoteResponse> {
+        return noteService.getAllNotes()
+    }
 }
