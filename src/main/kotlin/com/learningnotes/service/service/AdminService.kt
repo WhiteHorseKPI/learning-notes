@@ -41,4 +41,19 @@ class AdminService(private val userRepository: UserRepository) {
         val savedUser: User = userRepository.save(notNullUser)
         return UserResponse.fromUser(savedUser)
     }
+
+    @Transactional
+    fun deleteNonAdminUser(userId: Long) {
+        val user = userRepository.findById(userId)
+        if (user.isEmpty || user.get().authorities!!
+                .stream()
+                .anyMatch { authority -> ("ROLE_TEACHER" == authority!!.authority)
+            }) {
+            throw ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "User does not exist or has a teacher role"
+            )
+        }
+        userRepository.delete(user.get())
+    }
 }

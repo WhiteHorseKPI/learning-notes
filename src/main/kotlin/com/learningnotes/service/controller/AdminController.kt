@@ -27,4 +27,11 @@ class AdminController(private val adminService: AdminService) {
     fun promoteToAdmin(@PathVariable @Min(1) userId: Long): UserResponse {
         return adminService.promoteToAdmin(userId)
     }
+
+    @Operation(summary = "Delete user", description = "Delete a non-teacher user from the system")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{userId}")
+    fun deleteUser(@PathVariable @Min(1) userId: Long) {
+        adminService.deleteNonAdminUser(userId)
+    }
 }
