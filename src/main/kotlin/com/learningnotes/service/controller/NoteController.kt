@@ -36,4 +36,11 @@ class NoteController(private val noteService: NoteService) {
     fun toggleNoteCompletion(@PathVariable @Min(1) id: Long): NoteResponse {
         return noteService.toggleNoteCompletion(id)
     }
+
+    @Operation(summary = "Delete note for user", description = "Delete note for the authenticated user")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{id}")
+    fun deleteNote(@PathVariable @Min(1) id: Long) {
+        noteService.deleteNote(id)
+    }
 }

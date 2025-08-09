@@ -48,4 +48,14 @@ class NoteService(private val noteRepository: NoteRepository) {
         val updatedNote = noteRepository.save(notNullNote)
         return NoteResponse.fromNote(updatedNote)
     }
+
+    @Transactional
+    fun deleteNote(id: Long) {
+        val currentUser = UserUtils.getAuthenticatedUser()
+        val note: Optional<Note> = noteRepository.findByIdAndOwner(id, currentUser)
+        if (note.isEmpty) {
+            throw ResponseStatusException(HttpStatus.NOT_FOUND, "Note not found")
+        }
+        noteRepository.delete(note.get())
+    }
 }
