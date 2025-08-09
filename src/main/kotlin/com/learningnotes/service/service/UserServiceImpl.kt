@@ -21,12 +21,7 @@ class UserServiceImpl(
     @Transactional(readOnly = true)
     override fun getUserInfo(): UserResponse {
         val user = UserUtils.getAuthenticatedUser()
-        return UserResponse(
-            user.id,
-            "${user.firstName} ${user.lastName}",
-            user.email,
-            user.authorities!!.stream().map { auth -> auth as Authority }.toList()
-        )
+        return UserResponse.fromUser(user)
     }
 
     override fun deleteUser() {
